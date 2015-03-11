@@ -1,0 +1,5 @@
+[package]
+
+name = "inverse_kinematics_and_geometric_algebra"
+version = "0.0.1"
+authors = ["Matt Woelk <matt@mattwoelk.ca>"]
