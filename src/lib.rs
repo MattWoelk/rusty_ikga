@@ -9,8 +9,5 @@ fn it_works() {
     let e2 : ScaledBasisBlade = 0b10;  // a vector e2
     let e1_wedge_e2 : ScaledBasisBlade = 0b11;  // a bivector
 
-    let e1_wedge_e2 = e1 ^ e2;
-    println!("{}", e1);
-    println!("{}", e2);
-    println!("{}", e1^e2);  // outer "wedge" product
+    assert_eq!(e1_wedge_e2, e1 ^ e2);  // outer "wedge" product
 }
