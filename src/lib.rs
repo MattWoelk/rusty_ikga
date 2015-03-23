@@ -1,8 +1,24 @@
 #![allow(dead_code)]
+
+use std::ops::Add;
+
 type ScaledBasisBlade = u32;
+
+// TODO: abstract these all into k-blades somehow.
+// OR just give them a trait called k-blade that lets them be used together easily.
 
 struct Scalar {
     magnitude: f64,
+}
+
+impl Add<Scalar> for Scalar {
+    type Output = Scalar;
+
+    fn add(self, _rhs: Scalar) -> Scalar {
+        return Scalar{
+            magnitude: self.magnitude + _rhs.magnitude,
+        };
+    }
 }
 
 // TODO: have two types of vectors
@@ -20,6 +36,18 @@ struct Vector {
     x: Scalar,
     y: Scalar,
 }
+
+impl Add<Vector> for Vector {
+    type Output = Vector;
+
+    fn add(self, _rhs: Vector) -> Vector {
+        return Vector{
+            x: self.x + _rhs.x,
+            y: self.y + _rhs.y,
+        };
+    }
+}
+
 
 // TODO: store one scalar for each of:
 // e_12 e_23 e_31
