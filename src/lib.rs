@@ -7,8 +7,15 @@ type ScaledBasisBlade = u32;
 // TODO: abstract these all into k-blades somehow.
 // OR just give them a trait called k-blade that lets them be used together easily.
 
+#[derive(Debug, PartialEq, PartialOrd)]
 struct Scalar {
     magnitude: f64,
+}
+
+impl Scalar {
+    pub fn new(m:f64) -> Scalar {
+        Scalar{magnitude:m}
+    }
 }
 
 impl Add<Scalar> for Scalar {
@@ -32,10 +39,21 @@ impl Add<Scalar> for Scalar {
 // when absolutely necessary
 // and would be optimized by the compiler
 // because it would use the type system.
+#[derive(Debug, PartialEq, PartialOrd)]
 struct Vector {
     x: Scalar,
     y: Scalar,
 }
+
+impl Vector {
+    pub fn new(x:f64, y:f64) -> Vector {
+        Vector{
+            x: Scalar{magnitude:x},
+            y: Scalar{magnitude:y},
+        }
+    }
+}
+
 
 impl Add<Vector> for Vector {
     type Output = Vector;
@@ -94,4 +112,12 @@ fn it_works() {
     let e1 = [1];
     let e2 = [1, 0];
     //let multivector = [];  // causes complier error
+
+    let s0 = Scalar{magnitude:4.};
+    let s1 = Scalar{magnitude:-5.};
+    assert_eq!(s0 + s1, Scalar{magnitude:-1.});
+
+    let v0 = Vector::new(4., -7.);
+    let v1 = Vector::new(-5., 3.);
+    assert_eq!(v0 + v1, Vector{x:Scalar{magnitude:-1.}, y:Scalar{magnitude:-4.}});
 }
