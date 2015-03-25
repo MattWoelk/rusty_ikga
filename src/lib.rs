@@ -39,6 +39,8 @@ impl Add<Scalar> for Scalar {
 // when absolutely necessary
 // and would be optimized by the compiler
 // because it would use the type system.
+//
+// TODO: Think about how 3-dimensional vectors can fit into all this.
 #[derive(Debug, PartialEq, PartialOrd)]
 struct Vector {
     x: Scalar,
