@@ -45,13 +45,15 @@ impl Add<Scalar> for Scalar {
 struct Vector {
     x: Scalar,
     y: Scalar,
+    z: Scalar,
 }
 
 impl Vector {
-    pub fn new(x:f64, y:f64) -> Vector {
+    pub fn new(x:f64, y:f64, z:f64) -> Vector {
         Vector{
             x: Scalar{magnitude:x},
             y: Scalar{magnitude:y},
+            z: Scalar{magnitude:z},
         }
     }
 }
@@ -64,6 +66,7 @@ impl Add<Vector> for Vector {
         return Vector{
             x: self.x + _rhs.x,
             y: self.y + _rhs.y,
+            z: self.z + _rhs.z,
         };
     }
 }
@@ -119,7 +122,18 @@ fn it_works() {
     let s1 = Scalar{magnitude:-5.};
     assert_eq!(s0 + s1, Scalar{magnitude:-1.});
 
-    let v0 = Vector::new(4., -7.);
-    let v1 = Vector::new(-5., 3.);
-    assert_eq!(v0 + v1, Vector{x:Scalar{magnitude:-1.}, y:Scalar{magnitude:-4.}});
+    let v0 = Vector::new(4., -7., 2.);
+    let v1 = Vector::new(-5., 3., 3.);
+    //assert_eq!(v0 + v1, Vector{
+    //    x:Scalar{magnitude:-1.},
+    //    z:Scalar{magnitude:-4.},
+    //    y:Scalar{magnitude:5.},
+    //});
+    assert_eq!(take_array(&[1, 2, 3]), 6);
+}
+
+
+#[allow(unused_variables)]
+fn take_array(arr:&[i32]) -> i32 {
+    return 6;
 }
