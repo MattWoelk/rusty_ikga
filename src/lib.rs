@@ -8,13 +8,11 @@ type ScaledBasisBlade = u32;
 // OR just give them a trait called k-blade that lets them be used together easily.
 
 #[derive(Debug, PartialEq, PartialOrd)]
-struct Scalar {
-    magnitude: f64,
-}
+struct Scalar(f64);
 
 impl Scalar {
     pub fn new(m:f64) -> Scalar {
-        Scalar{magnitude:m}
+        Scalar(m)
     }
 }
 
@@ -22,11 +20,12 @@ impl Add<Scalar> for Scalar {
     type Output = Scalar;
 
     fn add(self, _rhs: Scalar) -> Scalar {
-        return Scalar{
-            magnitude: self.magnitude + _rhs.magnitude,
-        };
+        return Scalar(self.0 + _rhs.0);
     }
 }
+
+static UNIT_SCALAR:Scalar = Scalar(1.);
+
 
 // TODO: have two types of vectors
 // one that stores x and y
@@ -51,9 +50,9 @@ struct Vector {
 impl Vector {
     pub fn new(x:f64, y:f64, z:f64) -> Vector {
         Vector{
-            x: Scalar{magnitude:x},
-            y: Scalar{magnitude:y},
-            z: Scalar{magnitude:z},
+            x: Scalar(x),
+            y: Scalar(y),
+            z: Scalar(z),
         }
     }
 }
@@ -70,6 +69,10 @@ impl Add<Vector> for Vector {
         };
     }
 }
+
+static X_UNIT_VECTOR:Vector = Vector{x:Scalar(1.), y:Scalar(0.), z:Scalar(0.)};
+static Y_UNIT_VECTOR:Vector = Vector{x:Scalar(0.), y:Scalar(1.), z:Scalar(0.)};
+static Z_UNIT_VECTOR:Vector = Vector{x:Scalar(0.), y:Scalar(0.), z:Scalar(1.)};
 
 
 // TODO: store one scalar for each of:
@@ -118,22 +121,21 @@ fn it_works() {
     let e2 = [1, 0];
     //let multivector = [];  // causes complier error
 
-    let s0 = Scalar{magnitude:4.};
-    let s1 = Scalar{magnitude:-5.};
-    assert_eq!(s0 + s1, Scalar{magnitude:-1.});
+    let s0 = Scalar(4.);
+    let s1 = Scalar(-5.);
+    assert_eq!(s0 + s1, Scalar(-1.));
 
     let v0 = Vector::new(4., -7., 2.);
     let v1 = Vector::new(-5., 3., 3.);
     //assert_eq!(v0 + v1, Vector{
-    //    x:Scalar{magnitude:-1.},
-    //    z:Scalar{magnitude:-4.},
-    //    y:Scalar{magnitude:5.},
+    //    x:Scalar(-1.),
+    //    z:Scalar(-4.),
+    //    y:Scalar(5.),
     //});
-    assert_eq!(take_array(&[1, 2, 3]), 6);
+    assert_eq!(take_array(&[1, 2, 3]), &[1, 2, 3]);
 }
 
 
-#[allow(unused_variables)]
-fn take_array(arr:&[i32]) -> i32 {
-    return 6;
+fn take_array(arr:&[i32]) -> &[i32] {
+    return arr;
 }
