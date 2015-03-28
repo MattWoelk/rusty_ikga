@@ -7,24 +7,9 @@ type ScaledBasisBlade = u32;
 // TODO: abstract these all into k-blades somehow.
 // OR just give them a trait called k-blade that lets them be used together easily.
 
-#[derive(Debug, PartialEq, PartialOrd)]
-struct Scalar(f64);
+type Scalar = f64;
 
-impl Scalar {
-    pub fn new(m:f64) -> Scalar {
-        Scalar(m)
-    }
-}
-
-impl Add<Scalar> for Scalar {
-    type Output = Scalar;
-
-    fn add(self, _rhs: Scalar) -> Scalar {
-        return Scalar(self.0 + _rhs.0);
-    }
-}
-
-static UNIT_SCALAR:Scalar = Scalar(1.);
+static UNIT_SCALAR:Scalar = 1.;
 
 
 // TODO: have two types of vectors
@@ -56,9 +41,9 @@ impl Add<Vector> for Vector {
     }
 }
 
-static X_UNIT_VECTOR:Vector = Vector(Scalar(1.), Scalar(0.), Scalar(0.));
-static Y_UNIT_VECTOR:Vector = Vector(Scalar(0.), Scalar(1.), Scalar(0.));
-static Z_UNIT_VECTOR:Vector = Vector(Scalar(0.), Scalar(0.), Scalar(1.));
+static X_UNIT_VECTOR:Vector = Vector(1., 0., 0.);
+static Y_UNIT_VECTOR:Vector = Vector(0., 1., 0.);
+static Z_UNIT_VECTOR:Vector = Vector(0., 0., 1.);
 
 
 // TODO: store one scalar for each of:
@@ -107,16 +92,16 @@ fn it_works() {
     let e2 = [1, 0];
     //let multivector = [];  // causes complier error
 
-    let s0 = Scalar(4.);
-    let s1 = Scalar(-5.);
-    assert_eq!(s0 + s1, Scalar(-1.));
+    let s0 = 4.;
+    let s1 = -5.;
+    assert_eq!(s0 + s1, -1.);
 
-    let v0 = Vector(Scalar(4.), Scalar(-7.), Scalar(2.));
-    let v1 = Vector(Scalar(-5.), Scalar(3.), Scalar(3.));
+    let v0 = Vector(4., -7., 2.);
+    let v1 = Vector(-5., 3., 3.);
     //assert_eq!(v0 + v1, Vector(
-    //    Scalar(-1.),
-    //    Scalar(-4.),
-    //    Scalar(5.),
+    //    -1.,
+    //    -4.,
+    //    5.,
     //));
     assert_eq!(take_array(&[1, 2, 3]), &[1, 2, 3]);
 }
