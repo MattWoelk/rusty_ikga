@@ -41,38 +41,24 @@ static UNIT_SCALAR:Scalar = Scalar(1.);
 //
 // TODO: Think about how 3-dimensional vectors can fit into all this.
 #[derive(Debug, PartialEq, PartialOrd)]
-struct Vector {
-    x: Scalar,
-    y: Scalar,
-    z: Scalar,
-}
-
-impl Vector {
-    pub fn new(x:f64, y:f64, z:f64) -> Vector {
-        Vector{
-            x: Scalar(x),
-            y: Scalar(y),
-            z: Scalar(z),
-        }
-    }
-}
+struct Vector(Scalar, Scalar, Scalar);
 
 
 impl Add<Vector> for Vector {
     type Output = Vector;
 
     fn add(self, _rhs: Vector) -> Vector {
-        return Vector{
-            x: self.x + _rhs.x,
-            y: self.y + _rhs.y,
-            z: self.z + _rhs.z,
-        };
+        return Vector(
+            self.0 + _rhs.0,
+            self.1 + _rhs.1,
+            self.2 + _rhs.2,
+        );
     }
 }
 
-static X_UNIT_VECTOR:Vector = Vector{x:Scalar(1.), y:Scalar(0.), z:Scalar(0.)};
-static Y_UNIT_VECTOR:Vector = Vector{x:Scalar(0.), y:Scalar(1.), z:Scalar(0.)};
-static Z_UNIT_VECTOR:Vector = Vector{x:Scalar(0.), y:Scalar(0.), z:Scalar(1.)};
+static X_UNIT_VECTOR:Vector = Vector(Scalar(1.), Scalar(0.), Scalar(0.));
+static Y_UNIT_VECTOR:Vector = Vector(Scalar(0.), Scalar(1.), Scalar(0.));
+static Z_UNIT_VECTOR:Vector = Vector(Scalar(0.), Scalar(0.), Scalar(1.));
 
 
 // TODO: store one scalar for each of:
@@ -125,13 +111,13 @@ fn it_works() {
     let s1 = Scalar(-5.);
     assert_eq!(s0 + s1, Scalar(-1.));
 
-    let v0 = Vector::new(4., -7., 2.);
-    let v1 = Vector::new(-5., 3., 3.);
-    //assert_eq!(v0 + v1, Vector{
-    //    x:Scalar(-1.),
-    //    z:Scalar(-4.),
-    //    y:Scalar(5.),
-    //});
+    let v0 = Vector(Scalar(4.), Scalar(-7.), Scalar(2.));
+    let v1 = Vector(Scalar(-5.), Scalar(3.), Scalar(3.));
+    //assert_eq!(v0 + v1, Vector(
+    //    Scalar(-1.),
+    //    Scalar(-4.),
+    //    Scalar(5.),
+    //));
     assert_eq!(take_array(&[1, 2, 3]), &[1, 2, 3]);
 }
 
