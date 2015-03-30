@@ -26,14 +26,20 @@ static UNIT_SCALAR:Scalar = 1.;
 //
 // TODO: Think about how 3-dimensional vectors can fit into all this.
 #[derive(Debug, PartialEq, PartialOrd)]
-struct Vector(Scalar, Scalar, Scalar);
+struct V3(Scalar, Scalar, Scalar);
+
+//TODO: use Vec<T> instead of an array like this.
+//struct Vctr(&[Scalar]);
+
+//fn add_vctr(left:&Vctr, right:&Vctr) -> Vctr {
+//}
 
 
-impl Add<Vector> for Vector {
-    type Output = Vector;
+impl Add<V3> for V3 {
+    type Output = V3;
 
-    fn add(self, _rhs: Vector) -> Vector {
-        return Vector(
+    fn add(self, _rhs: V3) -> V3 {
+        return V3(
             self.0 + _rhs.0,
             self.1 + _rhs.1,
             self.2 + _rhs.2,
@@ -41,24 +47,24 @@ impl Add<Vector> for Vector {
     }
 }
 
-static X_UNIT_VECTOR:Vector = Vector(1., 0., 0.);
-static Y_UNIT_VECTOR:Vector = Vector(0., 1., 0.);
-static Z_UNIT_VECTOR:Vector = Vector(0., 0., 1.);
+static X_UNIT_VECTOR:V3 = V3(1., 0., 0.);
+static Y_UNIT_VECTOR:V3 = V3(0., 1., 0.);
+static Z_UNIT_VECTOR:V3 = V3(0., 0., 1.);
 
 
 // TODO: store one scalar for each of:
 // e_12 e_23 e_31
 // ALTERNATIVELY:
 // ??? a magnitude and two angles ???
-// ??? a Vector and a magnitude ???
+// ??? a V3 and a magnitude ???
 struct Bivector {
     magnitude: Scalar,
-    vector: Vector,
+    vector: V3,
 }
 
 struct MultiVector {
     scalar: Scalar,
-    vector: Vector,
+    vector: V3,
     bivector: Bivector,
 }
 
@@ -96,9 +102,9 @@ fn it_works() {
     let s1 = -5.;
     assert_eq!(s0 + s1, -1.);
 
-    let v0 = Vector(4., -7., 2.);
-    let v1 = Vector(-5., 3., 3.);
-    //assert_eq!(v0 + v1, Vector(
+    let v0 = V3(4., -7., 2.);
+    let v1 = V3(-5., 3., 3.);
+    //assert_eq!(v0 + v1, V3(
     //    -1.,
     //    -4.,
     //    5.,
