@@ -29,7 +29,9 @@ static UNIT_SCALAR:Scalar = 1.;
 struct V3(Scalar, Scalar, Scalar);
 
 //TODO: use Vec<T> instead of an array like this.
-//struct Vctr(&[Scalar]);
+struct Vctr<'a>(
+    &'a [Scalar]
+);
 
 //fn add_vctr(left:&Vctr, right:&Vctr) -> Vctr {
 //}
