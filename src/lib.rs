@@ -67,8 +67,8 @@ struct TriVector3 {
 #[derive(Clone, Copy, Debug, PartialEq)]
 struct MultiThing3 {
     scalar: Scalar,
-    vector: Vector2,
-    bivector: BiVector2,
+    vector: Vector3,
+    bivector: BiVector3,
     trivector: TriVector3,
 }
 
@@ -108,6 +108,46 @@ fn wedge2(a: Vector2, b:Vector2) -> BiVector2 {
 /// This is the same as the magnitude of the cross product.
 fn wedge2_magnitude(a: Vector2, b: Vector2) -> Scalar {
     (a.x * b.y) - (a.y * b.x)
+}
+
+impl From<Scalar> for MultiThing2 {
+    fn from(from: Scalar) -> MultiThing2 {
+        MultiThing2 {
+            scalar: from,
+            vector: Vector2 {
+                x: 0.,
+                y: 0.,
+            },
+            bivector: BiVector2 {
+                xy: 0.,
+            },
+        }
+    }
+}
+
+impl From<Vector2> for MultiThing2 {
+    fn from(from: Vector2) -> MultiThing2 {
+        MultiThing2 {
+            scalar: 0.,
+            vector: from,
+            bivector: BiVector2 {
+                xy: 0.,
+            },
+        }
+    }
+}
+
+impl From<BiVector2> for MultiThing2 {
+    fn from(from: BiVector2) -> MultiThing2 {
+        MultiThing2 {
+            scalar: 0.,
+            vector: Vector2 {
+                x: 0.,
+                y: 0.,
+            },
+            bivector: from,
+        }
+    }
 }
 
 fn magnitude3(a: Vector3) -> Scalar {
@@ -162,6 +202,80 @@ fn wedge3_magnitude(a: Vector3, b: Vector3) -> Scalar {
         z: zx,
     };
     magnitude3(vec)
+}
+
+impl From<Vector3> for MultiThing3 {
+    fn from(from: Vector3) -> MultiThing3 {
+        MultiThing3 {
+            scalar: 0.,
+            vector: from,
+            bivector: BiVector3 {
+                xy: 0.,
+                yz: 0.,
+                zx: 0.,
+            },
+            trivector: TriVector3 {
+                xyz: 0.,
+            },
+        }
+    }
+}
+
+impl From<Scalar> for MultiThing3 {
+    fn from(from: Scalar) -> MultiThing3 {
+        MultiThing3 {
+            scalar: from,
+            vector: Vector3 {
+                x: 0.,
+                y: 0.,
+                z: 0.,
+            },
+            bivector: BiVector3 {
+                xy: 0.,
+                yz: 0.,
+                zx: 0.,
+            },
+            trivector: TriVector3 {
+                xyz: 0.,
+            },
+        }
+    }
+}
+
+impl From<BiVector3> for MultiThing3 {
+    fn from(from: BiVector3) -> MultiThing3 {
+        MultiThing3 {
+            scalar: 0.,
+            vector: Vector3 {
+                x: 0.,
+                y: 0.,
+                z: 0.,
+            },
+            bivector: from,
+            trivector: TriVector3 {
+                xyz: 0.,
+            },
+        }
+    }
+}
+
+impl From<TriVector3> for MultiThing3 {
+    fn from(from: TriVector3) -> MultiThing3 {
+        MultiThing3 {
+            scalar: 0.,
+            vector: Vector3 {
+                x: 0.,
+                y: 0.,
+                z: 0.,
+            },
+            bivector: BiVector3 {
+                xy: 0.,
+                yz: 0.,
+                zx: 0.,
+            },
+            trivector: from,
+        }
+    }
 }
 
 #[test]
