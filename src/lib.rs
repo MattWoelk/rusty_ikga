@@ -126,6 +126,43 @@ fn wedge2_magnitude(a: Vector2, b: Vector2) -> Scalar {
     (a.x * b.y) - (a.y * b.x)
 }
 
+/// This is the "geometric product"
+fn product2<M:Into<MultiVector2>>(a_: M, b_: M) -> MultiVector2 {
+    let a: MultiVector2 = a_.into();
+    let b: MultiVector2 = b_.into();
+
+    let scalar = (a.scalar * b.scalar) +
+                 (a.vector.x * b.vector.x) +
+                 (a.vector.y * b.vector.y) +
+                 (a.bivector.xy * b.bivector.xy);
+
+    let x = (a.vector.x * b.scalar) +
+            (a.scalar * b.vector.x) -
+            (a.vector.y * b.bivector.xy) +
+            (a.bivector.xy * b.vector.y);
+
+    let y = (a.vector.y * b.scalar) +
+            (a.scalar * b.vector.y) -
+            (a.bivector.xy * b.vector.x) +
+            (a.vector.x * b.bivector.xy);
+
+    let xy = (a.bivector.xy * b.scalar) +
+             (a.scalar * b.bivector.xy) +
+             (a.vector.x * b.vector.y) -
+             (a.vector.y * b.vector.x);
+
+    MultiVector2 {
+        scalar: scalar,
+        vector: Vector2 {
+            x: x,
+            y: y,
+        },
+        bivector: BiVector2 {
+            xy: xy,
+        },
+    }
+}
+
 /// TODO: make and use the more general product2, and use this for verification.
 fn product_vector2(a: Vector2, b: Vector2) -> MultiVector2 {
     let dot_product: MultiVector2 = dot2(a, b).into();
@@ -322,6 +359,17 @@ fn test_thing() {
             xy: 0.,
         },
     });
+    assert_eq!(product_vector2(a, b), MultiVector2 {
+        scalar: -4.,
+        vector: Vector2 {
+            x: 0.,
+            y: 0.,
+        },
+        bivector: BiVector2 {
+            xy: -6.,
+        },
+    });
+    assert_eq!(product2(a, b), product_vector2(a, b));
 
     let a = Vector3{x:1., y:2., z:2.};
     let b = Vector3{x:3., y:-2., z:26.};
