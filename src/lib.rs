@@ -126,6 +126,14 @@ fn wedge2_magnitude(a: Vector2, b: Vector2) -> Scalar {
     (a.x * b.y) - (a.y * b.x)
 }
 
+/// TODO: make and use the more general product2, and use this for verification.
+fn product_vector2(a: Vector2, b: Vector2) -> MultiVector2 {
+    let dot_product: MultiVector2 = dot2(a, b).into();
+    let wedge_product: MultiVector2 = wedge2(a, b).into();
+
+    plus_multivector2(dot_product, wedge_product)
+}
+
 impl From<Scalar> for MultiVector2 {
     fn from(from: Scalar) -> MultiVector2 {
         MultiVector2 {
