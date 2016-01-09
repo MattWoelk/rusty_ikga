@@ -129,12 +129,30 @@ fn minus2(a: Vector2, b: Vector2) -> Vector2 {
     }
 }
 
+fn dot2(a: Vector2, b:Vector2) -> Scalar {
+    (a.x * b.x) + (a.y * b.y)
+}
+
+fn wedge2(a: Vector2, b:Vector2) -> BiVector2 {
+    BiVector2 {
+        xy: wedge2_magnitude(a, b)
+    }
+}
+
+/// This is the same as the magnitude of the cross product.
+fn wedge2_magnitude(a: Vector2, b: Vector2) -> Scalar {
+    (a.x * b.y) - (a.y * b.x)
+}
+
 #[test]
 fn test_thing() {
     let a = Vector2{x:1., y:2.};
     let b = Vector2{x:3., y:-2.};
     assert_eq!(plus2(a, b), Vector2{x:4., y:0.});
     assert_eq!(minus2(a, b), Vector2{x:-2., y:4.});
+    assert_eq!(dot2(a, b), -1.);
+    assert_eq!(wedge2(a, b), BiVector2{xy: wedge2_magnitude(a, b)});
+    assert_eq!(wedge2_magnitude(a, b), -8.);
 }
 
 #[test]
