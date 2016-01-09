@@ -83,6 +83,60 @@ struct MultiVector {
 //    }
 //}
 
+/// The following is for 2 dimensions only
+enum TwoDirections {
+    X,
+    Y,
+}
+
+enum OneBiVectorThing {
+    XY,
+}
+
+#[derive(Clone, Copy, Debug, PartialEq)]
+struct Vector2 {
+    x: Scalar,
+    y: Scalar,
+}
+
+#[derive(Clone, Copy, Debug, PartialEq)]
+struct BiVector2 {
+    xy: Scalar,
+}
+
+#[derive(Clone, Copy, Debug, PartialEq)]
+struct MultiThing2 {
+    scalar: Scalar,
+    vector: Vector2,
+    bivector: BiVector2,
+}
+
+fn plus2(a: Vector2, b: Vector2) -> Vector2 {
+    let x = a.x + b.x;
+    let y = a.y + b.y;
+    Vector2 {
+        x: x,
+        y: y,
+    }
+}
+
+fn minus2(a: Vector2, b: Vector2) -> Vector2 {
+    let x = a.x - b.x;
+    let y = a.y - b.y;
+    Vector2 {
+        x: x,
+        y: y,
+    }
+}
+
+#[test]
+fn test_thing() {
+    let a = Vector2{x:1., y:2.};
+    let b = Vector2{x:3., y:-2.};
+    assert_eq!(plus2(a, b), Vector2{x:4., y:0.});
+    assert_eq!(minus2(a, b), Vector2{x:-2., y:4.});
+}
+
 #[test]
 #[allow(unused_variables)]
 fn it_works() {
