@@ -1,23 +1,6 @@
 #![allow(dead_code)]
 
-use std::ops::Add;
-
 type Scalar = f64;
-
-#[derive(Debug, PartialEq, PartialOrd)]
-struct V3(Scalar, Scalar, Scalar);
-
-impl Add<V3> for V3 {
-    type Output = V3;
-
-    fn add(self, _rhs: V3) -> V3 {
-        return V3(
-            self.0 + _rhs.0,
-            self.1 + _rhs.1,
-            self.2 + _rhs.2,
-        );
-    }
-}
 
 enum Dimensions2 {
     X,
