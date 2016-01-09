@@ -1,5 +1,8 @@
 #![allow(dead_code)]
 
+/// Note: Any function, enum, or struct that ends with a number
+/// is for use when using that number of dimensions
+
 type Scalar = f64;
 
 enum Dimensions2 {
@@ -76,12 +79,25 @@ fn magnitude2(a: Vector2) -> Scalar {
     (a.x.powf(2.) + a.y.powf(2.)).sqrt()
 }
 
-fn plus2(a: Vector2, b: Vector2) -> Vector2 {
+fn plus_vector2(a: Vector2, b: Vector2) -> Vector2 {
     let x = a.x + b.x;
     let y = a.y + b.y;
     Vector2 {
         x: x,
         y: y,
+    }
+}
+
+fn plus_multivector2<M:Into<MultiVector2>>(a: M, b: M) -> MultiVector2 {
+    let a_m: MultiVector2 = a.into();
+    let b_m: MultiVector2 = b.into();
+
+    MultiVector2 {
+        scalar: a_m.scalar + b_m.scalar,
+        vector: plus_vector2(a_m.vector, b_m.vector),
+        bivector: BiVector2 {
+            xy: a_m.bivector.xy + b_m.bivector.xy,
+        },
     }
 }
 
@@ -283,11 +299,21 @@ fn test_thing() {
     let a = Vector2{x:0., y:2.};
     let b = Vector2{x:3., y:-2.};
     assert_eq!(magnitude2(a), 2.);
-    assert_eq!(plus2(a, b), Vector2{x:3., y:0.});
+    assert_eq!(plus_vector2(a, b), Vector2{x:3., y:0.});
     assert_eq!(minus2(a, b), Vector2{x:-3., y:4.});
     assert_eq!(dot2(a, b), -4.);
     assert_eq!(wedge2(a, b), BiVector2{xy: wedge2_magnitude(a, b)});
     assert_eq!(wedge2_magnitude(a, b), -6.);
+    assert_eq!(plus_multivector2(a, b), MultiVector2 {
+        scalar: 0.,
+        vector: Vector2 {
+            x: 3.,
+            y: 0.,
+        },
+        bivector: BiVector2 {
+            xy: 0.,
+        },
+    });
 
     let a = Vector3{x:1., y:2., z:2.};
     let b = Vector3{x:3., y:-2., z:26.};
